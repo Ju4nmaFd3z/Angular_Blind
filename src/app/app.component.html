@@ -1,21 +1,15 @@
-<main class="card">
+<div class="card">
   <h1>{{ titulo }}</h1>
 
-  <div class="controls">
-    <div class="control">
-      <button (click)="onConnectDisconnect()">{{ this.powerOutage ? 'Desconectar' : 'Conectar' }}</button>
-      <span>Corriente General:
-        <strong [class.on]="this.powerOutage" [class.off]="!this.powerOutage">{{ this.powerOutage ? 'CONECTADA' : 'DESCONECTADA' }}</strong>
-      </span>
-    </div>
-    <div class="control">
-      <button (click)="onRoomConnectDisconnect()">{{ this.roomOutage ? 'Desconectar' : 'Conectar' }}</button>
-      <span>Corriente Habitación:
-        <strong [class.on]="this.roomOutage" [class.off]="!this.roomOutage">{{ this.roomOutage ? 'CONECTADA' : 'DESCONECTADA' }}</strong>
-      </span>
-    </div>
-    <p class="received">Estado recibido: <strong>PERSIANA {{ this.blindState }}</strong></p>
-  </div>
+  <p>
+    <button (click)="onConnectDisconnect()">{{ this.powerOutage ? 'Desconectar' : 'Conectar' }}</button>
+    Corriente General: {{ this.powerOutage ? 'CONECTADA' : 'DESCONECTADA' }}
+  </p>
+  <p>
+    <button (click)="onRoomConnectDisconnect()">{{ this.roomOutage ? 'Desconectar' : 'Conectar' }}</button>
+    Corriente Habitación: {{ this.roomOutage ? 'CONECTADA' : 'DESCONECTADA' }}
+  </p>
+  <p>Estado recibido: PERSIANA {{ this.blindState }}</p>
 
   <app-room [powerOutage]="this.powerOutage" [roomOutage]="this.roomOutage" (blindStateOutput)="onBlindStateChange($event)"></app-room>
-</main>
+</div>
