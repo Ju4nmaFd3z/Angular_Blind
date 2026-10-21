@@ -1,0 +1,30 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 1.25rem;
+  background-color: var(--blind-bg);
+  border: 2px solid var(--border);
+  border-radius: 0.75rem;
+}
+
+h3 {
+  margin: 0;
+  font-size: 1.05rem;
+  letter-spacing: 0.06em;
+}
+
+p {
+  margin: 0;
+}
+
+.open {
+  color: var(--on);
+}
+
+small {
+  color: var(--muted);
+}

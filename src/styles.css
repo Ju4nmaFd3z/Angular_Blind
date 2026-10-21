@@ -1,1 +1,62 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --bg: #eef1f5;
+  --card-bg: #ffffff;
+  --room-bg: #f4f7fb;
+  --blind-bg: #e6edf6;
+  --border: #c9d3df;
+  --text: #1f2933;
+  --muted: #6b7785;
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  --on: #15803d;
+  --off: #b91c1c;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.4;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  background-color: var(--accent);
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+button:hover:not(:disabled) {
+  background-color: var(--accent-hover);
+}
+
+button:focus-visible {
+  outline: 3px solid #93c5fd;
+  outline-offset: 2px;
+}
+
+button:disabled {
+  background-color: #b6bfca;
+  cursor: not-allowed;
+}
+
+.on {
+  color: var(--on);
+}
+
+.off {
+  color: var(--off);
+}

@@ -1,0 +1,47 @@
+:host {
+  display: flex;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  width: 100%;
+  max-width: 34rem;
+  padding: 1.5rem;
+  background-color: var(--card-bg);
+  border: 2px solid var(--border);
+  border-radius: 1rem;
+  box-shadow: 0 4px 14px rgb(0 0 0 / 8%);
+  text-align: center;
+}
+
+h1 {
+  margin: 0;
+  font-size: 1.4rem;
+  letter-spacing: 0.08em;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.control {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+}
+
+.control button {
+  min-width: 8.5rem;
+}
+
+.received {
+  margin: 0;
+}

@@ -1,0 +1,7 @@
+<h3>PERSIANA</h3>
+<p>Persiana id.: #{{ blindId() }}</p>
+<p>Estado: <strong [class.open]="state === 'ABIERTA'">{{ state }}</strong></p>
+<button [disabled]="!this.power()" (click)="onClickUpDown()">Subir / bajar</button>
+@if (!this.power()) {
+  <small>Sin corriente: la persiana no se puede mover</small>
+}
