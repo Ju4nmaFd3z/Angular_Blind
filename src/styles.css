@@ -1,15 +1,134 @@
-body {
-  margin: 0;
-  background-color: #eef1f5;
-  font-family: Arial, sans-serif;
+:root {
+  --bg: #eceff4;
+  --surface: #ffffff;
+  --surface-2: #f6f7f9;
+  --border: #e2e6ed;
+  --text: #0f172a;
+  --text-2: #475569;
+  --muted: #8a96a8;
+  --ink: #0f172a;
+  --ok: #15803d;
+  --ok-bg: #e6f6ec;
+  --bad: #b91c1c;
+  --bad-bg: #fdeaea;
+  --radius: 16px;
+  --shadow: 0 1px 2px rgba(15, 23, 42, 0.06), 0 8px 24px rgba(15, 23, 42, 0.08);
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background-color: var(--bg);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--text);
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  font-size: 15px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  background:
+    radial-gradient(900px 420px at 50% -80px, #ffffff 0%, rgba(255, 255, 255, 0) 70%),
+    linear-gradient(180deg, #f3f5f9 0%, var(--bg) 100%);
+}
+
+h1, h2, h3, p {
+  margin: 0;
+}
+
+/* botones */
 button {
-  padding: 0.4rem 0.8rem;
-  margin-right: 0.5rem;
+  min-height: 40px;
+  padding: 0 18px;
+  border: 1px solid var(--ink);
+  border-radius: 10px;
+  background: linear-gradient(180deg, #1e293b, var(--ink));
+  color: #fff;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
   cursor: pointer;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  transition: background 0.15s, box-shadow 0.15s, transform 0.1s;
+}
+
+button:hover:not(:disabled) {
+  background: linear-gradient(180deg, #334155, #1e293b);
+}
+
+button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+button:focus-visible {
+  outline: 3px solid rgba(37, 99, 235, 0.35);
+  outline-offset: 2px;
 }
 
 button:disabled {
+  background: #eef0f4;
+  border-color: var(--border);
+  color: #a3acba;
+  box-shadow: none;
   cursor: not-allowed;
+}
+
+button.danger {
+  background: #fff;
+  border-color: #f0c4c4;
+  color: var(--bad);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+}
+
+button.danger:hover:not(:disabled) {
+  background: var(--bad-bg);
+}
+
+/* estado ON / OFF como chip */
+.on,
+.off {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px 3px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.on::before,
+.off::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.on {
+  color: var(--ok);
+  background: var(--ok-bg);
+}
+
+.on::before {
+  box-shadow: 0 0 0 3px rgba(21, 128, 61, 0.18);
+}
+
+.off {
+  color: var(--bad);
+  background: var(--bad-bg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
 }

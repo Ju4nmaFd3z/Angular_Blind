@@ -1,4 +1,33 @@
-<h3>PERSIANA</h3>
-<p>Persiana id.: #{{ blindId() }}</p>
-<p>Estado: {{ state }}</p>
-<button [disabled]="!this.power()" (click)="onClickUpDown()">Subir / bajar</button>
+<article class="blind">
+  <div class="scene" [class.abierta]="state === 'ABIERTA'" [class.apagada]="!this.power()" aria-hidden="true">
+    <div class="wall"></div>
+    <div class="floor"><div class="sunpatch"></div></div>
+
+    <div class="window">
+      <div class="outside">
+        <div class="sun"></div>
+        <div class="cloud one"></div>
+        <div class="hill far"></div>
+        <div class="hill near"></div>
+      </div>
+      <div class="mullion v"></div>
+      <div class="mullion h"></div>
+
+      <div class="shutter">
+        <div class="slats"></div>
+        <div class="bar"></div>
+      </div>
+      <div class="rail left"></div>
+      <div class="rail right"></div>
+      <div class="box"></div>
+    </div>
+    <div class="sill"></div>
+  </div>
+
+  <div class="details">
+    <h3>PERSIANA</h3>
+    <p class="id">Persiana id.: #{{ blindId() }}</p>
+    <p class="state">Estado: <strong class="chip" [class.abierta]="state === 'ABIERTA'">{{ state }}</strong></p>
+    <button [disabled]="!this.power()" (click)="onClickUpDown()">Subir / bajar</button>
+  </div>
+</article>

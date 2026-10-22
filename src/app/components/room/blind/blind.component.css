@@ -1,7 +1,328 @@
 :host {
   display: block;
-  padding: 1rem;
-  background-color: #e0e0e0;
-  border: 2px solid #ccc;
-  border-radius: 0.75rem;
+}
+
+.blind {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 13rem;
+  align-items: center;
+  gap: 24px;
+  padding: 16px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+}
+
+/* ---------- escena ---------- */
+.scene {
+  /* motor: recorrido completo y arranque/parada suaves, velocidad constante en medio */
+  --recorrido: 8s;
+  --motor: cubic-bezier(0.3, 0, 0.7, 1);
+  position: relative;
+  aspect-ratio: 16 / 12;
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.15), inset 0 0 0 1px rgba(15, 23, 42, 0.12);
+  transition: filter 0.6s;
+}
+
+@supports (transition-timing-function: linear(0, 1)) {
+  .scene {
+    --motor: linear(0, 0.0024, 0.0162, 0.0453, 0.0847, 0.1263, 0.1679, 0.2094, 0.251, 0.2926, 0.3342, 0.3754, 0.417, 0.4586, 0.5001, 0.5417, 0.5833, 0.6249, 0.6661, 0.7077, 0.7493, 0.7908, 0.8324, 0.874, 0.9156, 0.955, 0.9839, 0.9977, 1);
+  }
+}
+
+.scene.apagada {
+  filter: saturate(0.55) brightness(0.8);
+}
+
+.wall {
+  position: absolute;
+  inset: 0 0 24% 0;
+  background: linear-gradient(180deg, #e9e5dd, #d9d3c8);
+  box-shadow: inset 0 -6px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* la luz del exterior ilumina la pared cuando está abierta */
+.wall::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 46% 38%, rgba(255, 246, 220, 0.75), rgba(255, 246, 220, 0) 62%);
+  opacity: 0;
+  transition: opacity var(--recorrido) var(--motor);
+}
+
+.scene.abierta .wall::after {
+  opacity: 1;
+}
+
+.floor {
+  position: absolute;
+  inset: 76% 0 0 0;
+  overflow: hidden;
+  background:
+    repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.07) 0 1px, transparent 1px 34px),
+    linear-gradient(180deg, #b58b5c, #9c7448);
+}
+
+.sunpatch {
+  position: absolute;
+  left: 46%;
+  top: 0;
+  width: 54%;
+  height: 100%;
+  transform: translateX(-50%);
+  mix-blend-mode: screen;
+  clip-path: inset(0 0 100% 0);
+  transition: clip-path var(--recorrido) var(--motor);
+}
+
+/* la luz entra a medida que sube la persiana: primero la parte baja de la ventana, que cae cerca de la pared */
+.scene.abierta .sunpatch {
+  clip-path: inset(0);
+}
+
+/* mancha de luz con la forma de los cristales y la sombra del marco */
+.sunpatch::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  clip-path: polygon(7% 0, 93% 0, 100% 100%, 0 100%);
+  filter: blur(1.2px);
+  background:
+    linear-gradient(90deg, transparent calc(50% - 4px), rgba(120, 80, 30, 0.5) calc(50% - 4px) calc(50% + 4px), transparent calc(50% + 4px)),
+    linear-gradient(180deg, transparent 50%, rgba(120, 80, 30, 0.45) 50% 60%, transparent 60%),
+    linear-gradient(180deg, rgba(255, 240, 200, 0.85), rgba(255, 226, 150, 0.3));
+}
+
+/* ---------- ventana ---------- */
+.window {
+  position: absolute;
+  left: 50%;
+  top: 10%;
+  width: 54%;
+  height: 54%;
+  transform: translateX(-50%);
+  padding: 6px;
+  background: linear-gradient(180deg, #fdfcfa, #ebe7df);
+  border-radius: 3px;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25), inset 0 0 0 1px rgba(0, 0, 0, 0.12);
+}
+
+.outside {
+  position: absolute;
+  inset: 6px;
+  overflow: hidden;
+  background: linear-gradient(180deg, #3f86d9 0%, #8cc4f0 55%, #dff1ff 100%);
+}
+
+.sun {
+  position: absolute;
+  top: 16%;
+  right: 16%;
+  width: 14%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #fff7cf;
+  box-shadow: 0 0 0 6px rgba(255, 247, 207, 0.35), 0 0 30px 14px rgba(255, 240, 170, 0.7);
+}
+
+.cloud {
+  position: absolute;
+  height: 9%;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  filter: blur(0.4px);
+}
+
+.cloud.one {
+  top: 28%;
+  left: 8%;
+  width: 34%;
+}
+
+.hill {
+  position: absolute;
+  left: -20%;
+  right: -20%;
+  border-radius: 50% 50% 0 0;
+}
+
+.hill.far {
+  bottom: -26%;
+  height: 58%;
+  background: linear-gradient(180deg, #7fb58a, #5f9c70);
+}
+
+.hill.near {
+  bottom: -38%;
+  height: 56%;
+  left: -40%;
+  right: 5%;
+  background: linear-gradient(180deg, #4f9d5d, #2f7a43);
+}
+
+.mullion {
+  position: absolute;
+  background: linear-gradient(90deg, #f4f1ea, #e3ded3);
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.25);
+}
+
+.mullion.v {
+  top: 6px;
+  bottom: 6px;
+  left: calc(50% - 3px);
+  width: 6px;
+}
+
+.mullion.h {
+  left: 6px;
+  right: 6px;
+  top: 56%;
+  height: 6px;
+}
+
+/* ---------- persiana de lamas ---------- */
+/* el cajón recoge las lamas: se deslizan hacia arriba con transform (movimiento fluido) */
+.shutter {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  right: 6px;
+  height: calc(100% - 12px);
+  z-index: 2;
+  overflow: hidden;
+  container-type: size;
+}
+
+.slats {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(180deg, #f7f9fb 0, #e3e8ee 2.5px, #bcc4cf 5px, #8f98a6 6.5px, #7d8695 7px);
+  box-shadow: 0 10px 14px -4px rgba(0, 0, 0, 0.38);
+}
+
+.bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 9px;
+  background: linear-gradient(180deg, #b8c0cc, #6b7483);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.25) inset;
+}
+
+.bar::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 1px;
+  width: 22px;
+  height: 4px;
+  transform: translateX(-50%);
+  border-radius: 2px;
+  background: #4b5361;
+}
+
+.slats,
+.bar {
+  will-change: transform;
+  transition: transform var(--recorrido) var(--motor);
+}
+
+.scene.abierta .slats,
+.scene.abierta .bar {
+  transform: translateY(calc(18px - 100cqh));
+}
+
+.rail {
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  width: 6px;
+  z-index: 3;
+  background: linear-gradient(90deg, #6e7684, #9aa2b0 50%, #6e7684);
+}
+
+.rail.left {
+  left: 6px;
+}
+
+.rail.right {
+  right: 6px;
+}
+
+.box {
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  right: -8px;
+  height: 20px;
+  z-index: 4;
+  border-radius: 4px;
+  background: linear-gradient(180deg, #eef1f5, #c3cad4 55%, #9aa2b0);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.sill {
+  position: absolute;
+  left: 50%;
+  top: calc(10% + 54%);
+  width: 62%;
+  height: 8px;
+  transform: translateX(-50%);
+  border-radius: 2px;
+  background: linear-gradient(180deg, #fbf9f5, #ddd7cb);
+  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* ---------- datos ---------- */
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+h3 {
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.id {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.state {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: var(--text-2);
+  font-weight: 500;
+}
+
+.chip {
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #334155;
+  background: #e5e9f0;
+}
+
+.chip.abierta {
+  color: var(--ok);
+  background: var(--ok-bg);
+}
+
+@media (max-width: 600px) {
+  .blind {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
 }

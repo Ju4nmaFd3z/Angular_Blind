@@ -1,4 +1,12 @@
-<h2>HABITACIÓN</h2>
-<p>Habitación id.: #{{ roomId }}</p>
-<p>Corriente: {{ this.power() ? 'ON' : 'OFF' }}</p>
-<app-blind [blindId]="this.blindId" [power]="this.power()" (blindStateOutput)="onBlindStateChange($event)"></app-blind>
+<section class="room">
+  <header>
+    <span class="icon" aria-hidden="true"></span>
+    <div class="title">
+      <h2>HABITACIÓN</h2>
+      <p>Habitación id.: #{{ roomId }}</p>
+    </div>
+    <p class="power">Corriente: <strong [class.on]="this.power()" [class.off]="!this.power()">{{ this.power() ? 'ON' : 'OFF' }}</strong></p>
+  </header>
+
+  <app-blind [blindId]="this.blindId" [power]="this.power()" (blindStateOutput)="onBlindStateChange($event)"></app-blind>
+</section>
